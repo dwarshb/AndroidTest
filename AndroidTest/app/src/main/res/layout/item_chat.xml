@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    app:strokeColor="@color/bubble_border"
+    app:strokeWidth="1dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="21dp">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.imageview.ShapeableImageView
+            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            android:id="@+id/avatarImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_avatar_placeholder"
+            tools:ignore="RtlHardcoded" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:layout_marginBottom="4dp"
+                android:textColor="@color/button_text"
+                android:textStyle="bold"
+                tools:text="Leo" />
+
+            <TextView
+                android:id="@+id/messageTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textColor="@color/button_text"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pharetra, sapien at luctus semper, justo dui accumsan lorem, nec pretium dui eros pharetra leo." />
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

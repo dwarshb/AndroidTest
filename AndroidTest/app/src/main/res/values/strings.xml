@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">AndroidTest</string>
+
+    <!-- Main Screen Strings -->
+    <string name="activity_main_title">Coding Tasks</string>
+    <string name="chat_button">CHAT</string>
+    <string name="login_button">LOG IN</string>
+    <string name="animation_button">ANIMATION</string>
+    <string name="email">Email ID</string>
+    <string name="password">Password</string>
+    <string name="fade_in">FADE IN</string>
+    <string name="fill_this_field">Fill this field</string>
+    <string name="fill_valid_email">Please enter valid email id</string>
+    <string name="response_received">Response Received</string>
+    <string name="response_message">"Response Code : %1$d , \n Response Message : %2$s , \n Response Received in %3$d ms"</string>
+    <string name="ok">OK</string>
+
+</resources>
