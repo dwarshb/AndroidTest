@@ -5,7 +5,7 @@
     <color name="colorAccent">#000000</color>
     <color name="background">#F9F9F9</color>
     <color name="button_blue">#0E5C89</color>
-    <color name="button_text">#1B1E1F</color>
+    <color name="text">#1B1E1F</color>
 
     <color name="white">#ffffff</color>
     <color name="bubble_border">#EFEFEF</color>

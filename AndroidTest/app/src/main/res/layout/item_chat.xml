@@ -8,6 +8,7 @@
     app:strokeColor="@color/bubble_border"
     app:strokeWidth="1dp"
     android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
     android:layout_marginEnd="21dp">
     <LinearLayout
         android:orientation="horizontal"
@@ -31,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
                 android:layout_marginBottom="4dp"
-                android:textColor="@color/button_text"
+                style="@style/ChatUserName"
                 android:textStyle="bold"
                 tools:text="Leo" />
 
@@ -40,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:textColor="@color/button_text"
+                style="@style/ChatMessage"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse pharetra, sapien at luctus semper, justo dui accumsan lorem, nec pretium dui eros pharetra leo." />
         </LinearLayout>
     </LinearLayout>

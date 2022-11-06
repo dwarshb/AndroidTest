@@ -3,6 +3,9 @@
 
     <!-- Main Screen Strings -->
     <string name="activity_main_title">Coding Tasks</string>
+    <string name="activity_chat_title">Chat</string>
+    <string name="activity_login_title">Login</string>
+    <string name="activity_animation_title">Animation</string>
     <string name="chat_button">CHAT</string>
     <string name="login_button">LOG IN</string>
     <string name="animation_button">ANIMATION</string>
