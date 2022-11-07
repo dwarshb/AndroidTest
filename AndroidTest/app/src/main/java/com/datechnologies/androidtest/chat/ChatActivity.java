@@ -27,6 +27,8 @@ import retrofit2.Response;
 
 /**
  * Screen that displays a list of chats from a chat log.
+ *
+ * @see ChatAdapter
  */
 public class ChatActivity extends AppCompatActivity {
 
@@ -71,28 +73,34 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
                 LinearLayoutManager.VERTICAL,
                 false));
-
+        // TODO: Make the UI look like it does in the mock-up. Allow for horizontal screen rotation.
+        /* DONE:
+         * Made required UI changes in item_chat.xml and to handle horizontal screen rotation
+         * added android:configChanges="orientation|screenSize" in AndroidManifest file under this
+         * activity tag.
+         */
+        // TODO: Retrieve the chat data from http://dev.rapptrlabs.com/Tests/scripts/chat_log.php
+        // TODO: Parse this chat data from JSON into ChatLogMessageModel and display it.
+        /*
+            Below we are creating an instance of API using APIClient and using its reference
+            calling loadChat() method to request the data from server.
+         */
         api = APIClient.getClient().create(API.class);
         Call<DataWrapper> dataCall = api.loadChat();
         dataCall.enqueue(new Callback<DataWrapper>() {
             @Override
             public void onResponse(Call<DataWrapper> call, Response<DataWrapper> response) {
+                //Once the response is received we will add the data into list and set it to adapter.
                 List<ChatLogMessageModel> chatList = response.body().getChats();
-                for (ChatLogMessageModel chatData : chatList) {
-                    Log.d("onResponse: ",chatData.getUsername());
-                    tempList.add(chatData);
-                }
+                tempList.addAll(chatList);
                 chatAdapter.setChatLogMessageModelList(tempList);
             }
             @Override
             public void onFailure(Call<DataWrapper> call, Throwable t) {
+                //If there is any error while fetching data, display a toast message
                 Toast.makeText(ChatActivity.this,t.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
-        // TODO: Make the UI look like it does in the mock-up. Allow for horizontal screen rotation.
-
-        // TODO: Retrieve the chat data from http://dev.rapptrlabs.com/Tests/scripts/chat_log.php
-        // TODO: Parse this chat data from JSON into ChatLogMessageModel and display it.
     }
 
     @Override

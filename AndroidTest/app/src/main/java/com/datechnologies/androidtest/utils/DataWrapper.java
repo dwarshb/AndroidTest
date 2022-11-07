@@ -9,6 +9,9 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+/**
+ * Below class is used to parse the JSON response received from server.
+ */
 public class DataWrapper {
 
     @SerializedName("data")

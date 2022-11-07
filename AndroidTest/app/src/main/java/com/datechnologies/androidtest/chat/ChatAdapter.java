@@ -18,7 +18,8 @@ import java.util.List;
 
 /**
  * A recycler view adapter used to display chat log messages in {@link ChatActivity}.
-
+ *
+ * @see ChatActivity
  */
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder>
 {

@@ -60,16 +60,30 @@ public class LoginActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
         // TODO: Make the UI look like it does in the mock-up. Allow for horizontal screen rotation.
+        /* DONE:
+         * Made required UI changes in activity_login.xml and to handle horizontal screen rotation
+         * added android:configChanges="orientation|screenSize" in AndroidManifest file under this
+         * activity tag.
+         */
+
         // TODO: Add a ripple effect when the buttons are clicked
+        // DONE: MaterialButton is used, so by default ripple effects is handled whenever button is clicked.
+
         // TODO: Save screen state on screen rotation, inputted username and password should not disappear on screen rotation
+        // Handled by Android Framework itself, due to configChanges code added in AndroidManifest
 
         // TODO: Send 'email' and 'password' to http://dev.rapptrlabs.com/Tests/scripts/login.php
+        // Done
         // TODO: as FormUrlEncoded parameters.
-
+        // Done
         // TODO: When you receive a response from the login endpoint, display an AlertDialog.
+        // Done
         // TODO: The AlertDialog should display the 'code' and 'message' that was returned by the endpoint.
+        // Done
         // TODO: The AlertDialog should also display how long the API call took in milliseconds.
+        // Done
         // TODO: When a login is successful, tapping 'OK' on the AlertDialog should bring us back to the MainActivity
+        // Done
 
         // TODO: The only valid login credentials are:
         // TODO: email: info@rapptrlabs.com
@@ -81,33 +95,53 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.login_button);
         loginBtn.setOnClickListener(v->{
             if(validateEmail() && validatePassword()) {
+                //If emailID and password are not empty and validated correctly
                 String emailID = emailEdt.getText().toString();
                 String password = passwordEdt.getText().toString();
 
+                /*
+                Below we are creating an instance of API using APIClient and using its reference
+                calling loadChat() method to request the data from server.
+                */
                 API api = APIClient.getClient().create(API.class);
                 Call<DataWrapper> loginCall = api.authenticate(emailID,password);
                 loginCall.enqueue(new Callback<DataWrapper>() {
                     @Override
                     public void onResponse(Call<DataWrapper> call, Response<DataWrapper> response) {
+                        //Once the response is received check if the response is success or not.
                         if (response.code()==401) {
                             Toast.makeText(LoginActivity.this,
                                     response.message(),Toast.LENGTH_LONG).show();
                         } else {
+                            //Calculate the actual response time an API took.
                             long responseTime = response.raw().receivedResponseAtMillis()-
                                     response.raw().sentRequestAtMillis();
+                            //Display Alert Dialog with response details.
                             displayAlertDialog(response.code(),response.message(),responseTime);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DataWrapper> call, Throwable t) {
-                        Log.e("onFailure: ",t.getMessage());
+                        //If any error occured, display a toast message.
+                        Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }
         });
     }
 
+    /**
+     * Below method will display the alert box that will show response code, response message and
+     * the response time passed in the parameters and on click of Ok, it will redirect back to
+     * MainActivity.java
+     *
+     * @param code is a response code
+     * @param message is a response message
+     * @param responseInMillis is a actual time taken by API to get response.
+     *
+     * @see MainActivity
+     */
     private void displayAlertDialog(int code, String message, long responseInMillis) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(LoginActivity.this);
         alertDialog.setTitle(getString(R.string.response_received));
@@ -123,6 +157,12 @@ public class LoginActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    /**
+     * Below method will be used to check if the email entered in the input field is not empty and
+     * it is in correct format.
+     *
+     * @return a boolean value. It will return true if the emailID entered is valid or else return false
+     */
     private boolean validateEmail() {
         if (emailEdt!=null) {
             String email = emailEdt.getText().toString();
@@ -139,6 +179,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Below method is used to check if the password field enter is empty or not.
+     *
+     * @return a boolean value. It will return true if password is not empty or else returns false
+     */
     private boolean validatePassword() {
         if (passwordEdt!=null) {
             String password = passwordEdt.getText().toString();

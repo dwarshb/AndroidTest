@@ -32,6 +32,11 @@ import com.plattysoft.leonids.ParticleSystem;
 /**
  * Screen that displays the D & A Technologies logo.
  * The icon can be moved around on the screen as well as animated.
+ * Also at the same time a firework will be started at the top of the screen and sound will be played.
+ *
+ * @see AnimationActivity#setupFadeAnimation()
+ * @see AnimationActivity#setupBonusTask()
+ * @see AnimationActivity#startBonusTask()
  * */
 
 public class AnimationActivity extends AppCompatActivity implements View.OnDragListener {
@@ -43,6 +48,7 @@ public class AnimationActivity extends AppCompatActivity implements View.OnDragL
     ImageView logoView;
     LinearLayout linearLayout;
 
+    AnimatorSet mAnimationSet;
     MediaPlayer mediaPlayer;
     ValueAnimator changeBackgroundColor,backToOriginalColor;
     //==============================================================================================
@@ -71,14 +77,24 @@ public class AnimationActivity extends AppCompatActivity implements View.OnDragL
         actionBar.setDisplayShowHomeEnabled(true);
 
         // TODO: Make the UI look like it does in the mock-up. Allow for horizontal screen rotation.
+        /* DONE:
+         * Made required UI changes in activity_animation.xml and to handle horizontal screen rotation
+         * added android:configChanges="orientation|screenSize" in AndroidManifest file under this
+         * activity tag.
+         */
+
         // TODO: Add a ripple effect when the buttons are clicked
+        // DONE: MaterialButton is used, so by default ripple effects is handled whenever button is clicked.
 
         // TODO: When the fade button is clicked, you must animate the D & A Technologies logo.
         // TODO: It should fade from 100% alpha to 0% alpha, and then from 0% alpha to 100% alpha
+        // DONE: Animation is initialized under setupFadeAnimation() and started whenever the button is clicked.
 
         // TODO: The user should be able to touch and drag the D & A Technologies logo around the screen.
+        // DONE
 
         // TODO: Add a bonus to make yourself stick out. Music, color, fireworks, explosions!!!
+        // DONE: Bonus Tasks are handled under setupBonusTask() and startBonusTask() methods
 
         animationButton = findViewById(R.id.animation_button);
         linearLayout = findViewById(R.id.linear_layout);
@@ -99,23 +115,45 @@ public class AnimationActivity extends AppCompatActivity implements View.OnDragL
         });
         linearLayout.setOnDragListener(this);
 
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(logoView, "alpha",  1f, .3f);
-        fadeOut.setDuration(3000);
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(logoView, "alpha", .3f, 1f);
-        fadeIn.setDuration(3000);
-
-        AnimatorSet mAnimationSet = new AnimatorSet();
-        mAnimationSet.play(fadeIn).after(fadeOut);
-
+        setupFadeAnimation();
         setupBonusTask();
+        mAnimationSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                animationButton.setEnabled(true);
+            }
+        });
         animationButton.setOnClickListener( v-> {
+            animationButton.setEnabled(false);
             mAnimationSet.start();
             startBonusTask();
         });
     }
 
+    /**
+     * Below method is used to setup the FadeAnimation for logoView i.e D & A Technologies.
+     * It starts FadeIn Animation first and after that FadeOut Animation is started.
+     */
+    private void setupFadeAnimation() {
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(logoView, "alpha",  1f, 0f);
+        fadeOut.setDuration(3000);
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(logoView, "alpha", 0f, 1f);
+        fadeIn.setDuration(3000);
+
+        mAnimationSet = new AnimatorSet();
+        mAnimationSet.play(fadeIn).after(fadeOut);
+    }
+
+    /**
+     * Below method is used to setup the Bonus Task that includes.
+     * - Change Background Color from WHITE to primaryColor and later change it back to WHITE color.
+     * - Initialize the ParticleSystem that will animate the firework from the top of the screen.
+     * - Initialize the MediaPlayer to play the firework sound.
+     *
+     * @see AnimationActivity#startBonusTask()
+     */
     private void setupBonusTask() {
-        int primaryColor = getColor(R.color.colorPrimary);
+        int primaryColor = getResources().getColor(R.color.colorPrimary);
         changeBackgroundColor = ValueAnimator.ofObject(new ArgbEvaluator(), Color.WHITE, primaryColor);
         changeBackgroundColor.setDuration(1500); // milliseconds
         changeBackgroundColor.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -133,9 +171,20 @@ public class AnimationActivity extends AppCompatActivity implements View.OnDragL
                 linearLayout.setBackgroundColor((int) animator.getAnimatedValue());
             }
         });
+
         mediaPlayer = MediaPlayer.create(this, R.raw.firework);
     }
 
+    /**
+     * Below method is used to start the animations which have been setup inside setupBonusTask()
+     * - It starts changeBackground Animator that changes the background from white to primaryColor.
+     * - It starts the ParticleSystem animation that will start firework at the top of the screen.
+     * - At the same time it will also play the sound of firework.
+     * - After 2 seconds it will stop the firework animation and start another animation which will
+     *   change the background color back to white.
+     *
+     * @see AnimationActivity#setupBonusTask()
+     */
     private void startBonusTask() {
         changeBackgroundColor.start();
         mediaPlayer.start();

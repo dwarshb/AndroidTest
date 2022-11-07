@@ -8,6 +8,10 @@ import android.os.Handler;
 import com.datechnologies.androidtest.MainActivity;
 import com.datechnologies.androidtest.R;
 
+/**
+ * Below Activity is a SplashActivity that will be delayed for 3 seconds and after that launches
+ * MainActivity.java
+ */
 public class SplashActivity extends Activity {
 
     @Override
